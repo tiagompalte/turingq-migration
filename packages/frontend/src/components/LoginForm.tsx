@@ -24,6 +24,7 @@ import Message from '../interfaces/Message';
 import AuthService from '../services/AuthService';
 import LoginResponse from '../interfaces/LoginResponse';
 import AuthContext from '../contexts/AuthContext';
+import KeycloakLogin from './KeycloakLogin';
 
 const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
@@ -110,6 +111,17 @@ const LoginForm: React.FC = () => {
   if (authContext.loggedIn) {
     return <Redirect to="/" />;
   }
+
+  // Se nossa flag indicar que devemos usar o Keycloak,
+  // retornamos o componente de login do Keycloak que acabamos
+  // de criar.
+  const useAuthServer = process.env.REACT_APP_USE_AUTH_SERVER === 'true';
+  if (useAuthServer) {
+    return <KeycloakLogin />;
+  }
+  // Caso contrário, o componente segue o fluxo
+  // original em que um formulário de login é apresentado
+  // nas linhas seguintes.
 
   return (
     <Container component="main" maxWidth="xs">
