@@ -1,0 +1,7 @@
+{
+  "realm": "turingq",
+  "displayName": "TuringQ",
+  "enabled": true,
+  "accessTokenLifespan": 1800,
+  "clients": []
+}
