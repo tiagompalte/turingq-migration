@@ -8,10 +8,19 @@ services:
     environment:
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      DB_VENDOR: ${KEYCLOAK_DB_VENDOR}
+      DB_ADDR: ${PG_HOST}
+      DB_DATABASE: ${PG_DB_NAME}
+      DB_USER: ${PG_USER}
+      DB_SCHEMA: ${PG_SCHEMA}
+      DB_PASSWORD: ${PG_PASSWORD}
     ports:
       - ${KEYCLOAK_PORT}:8080
     networks:
       - turingq-keycloak-net
+      - turingq-keycloak-database-net
+    depends_on:
+      - postgres
 
   authorizer-config:
     image: quay.io/adorsys/keycloak-config-cli:latest-15.0.2
@@ -31,6 +40,30 @@ services:
     depends_on:
       - authorizer
 
+  postgres:
+    image: postgres:13-alpine
+    container_name: turingq-authorizer-database-dev
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB_NAME}
+    volumes:
+      - turingq-authorizer-db-data:/var/lib/postgresql/data
+    ports:
+      - ${PG_PORT}:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - turingq-keycloak-database-net
+
 networks:
   turingq-keycloak-net:
     driver: bridge
+  turingq-keycloak-database-net:
+    driver: bridge
+
+volumes:
+  turingq-authorizer-db-data:
