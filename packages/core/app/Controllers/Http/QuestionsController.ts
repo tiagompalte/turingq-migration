@@ -10,6 +10,22 @@ import Question from 'App/Models/Question'
 
 // TODO: add missing tests
 export default class QuestionsController {
+  private getUserId(auth, request) {
+    const useKeycloak = Env.get('USE_KEYCLOAK')
+
+    // Dependendo de nossa variável de ambiente, retornamos
+    // o ID do usuário de um lugar diferente:
+    if (useKeycloak) {
+      // O middleware que criamos armazena o usuário no objeto
+      // “request”:
+      return request['user'].id
+    } else {
+      // O sistema de autenticação do Adonis tem seu próprio
+      // meio de acessar o usuário:
+      return auth.use('api').user!.id
+    }
+  }
+
   public async index({ request }: HttpContextContract) {
     const pagination = await request.validate(PaginationValidator)
 
@@ -39,14 +55,14 @@ export default class QuestionsController {
   }
 
   public async store({ auth, request, response }: HttpContextContract) {
-    const userId = auth.use('api').user!.id
+    const userId = this.getUserId(auth, request)
     const question = await this.save(request, userId)
     Event.emit('new:question', question)
     return response.created(question.toJSON())
   }
 
   public async update({ auth, request, response }: HttpContextContract) {
-    const userId = auth.use('api').user!.id
+    const userId = this.getUserId(auth, request)
     let questionInDb = await Question.find(request.param('id'))
     let responseMethod = 'ok'
 
@@ -60,8 +76,8 @@ export default class QuestionsController {
     return response[responseMethod](question.toJSON())
   }
 
-  public async destroy({ auth, params, response }: HttpContextContract) {
-    const userId = auth.use('api').user!.id
+  public async destroy({ auth, params, request, response }: HttpContextContract) {
+    const userId = this.getUserId(auth, request)
     const question = await Question.findOrFail(params.id)
     if (question.authorId !== userId) {
       return response.unauthorized({ error: 'You cannot remove a question from another author' })

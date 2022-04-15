@@ -3,7 +3,7 @@
   "displayName": "TuringQ",
   "enabled": true,
   "accessTokenLifespan": 1800,
-    "clients": [
+  "clients": [
     {
       "clientId": "turingq-frontend-client",
       "name": "turingq-frontend-client",
@@ -18,6 +18,30 @@
       "webOrigins": [
         "http://localhost:3000"
       ]
+    },
+    {
+      "clientId": "turingq-core-client",
+      "name": "turingq-core-client",
+      "description": "Previous monolith",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "core-secret-change-me",
+      "serviceAccountsEnabled": true,
+      "redirectUris": [
+        "*"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "service-account-turingq-core-client",
+      "enabled": true,
+      "serviceAccountClientId": "turingq-core-client",
+      "clientRoles": {
+        "realm-management": [
+          "manage-users"
+        ]
+      }
     }
   ]
 }
