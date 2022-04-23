@@ -3,17 +3,6 @@
   "configurations": [
     {
       "type": "node",
-      "name": "ITuring Debugger - Core - Process Attach",
-      "request": "attach",
-      "protocol": "inspector",
-      "restart": true,
-      "skipFiles": ["<node_internals>/**"],
-      "sourceMaps": true,
-      "address": "localhost",
-      "port": 9231
-    },
-    {
-      "type": "node",
       "name": "questions",
       "request": "attach",
       "protocol": "inspector",
