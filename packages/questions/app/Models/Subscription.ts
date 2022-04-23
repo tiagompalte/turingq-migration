@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { column, belongsTo, BelongsTo, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
 
 import Question from 'App/Models/Question'
-import User from 'App/Models/User'
+import User from 'App/Models/Author'
 
 import IdentifiableModel from 'App/Helpers/Orm/IdentifiableModel'
 

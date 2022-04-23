@@ -4,7 +4,7 @@ import { EventsList } from '@ioc:Adonis/Core/Event'
 
 import Subscription from 'App/Models/Subscription'
 import Question from 'App/Models/Question'
-import User from 'App/Models/User'
+import Author from 'App/Models/Author'
 
 export default class Answer {
   public async onNewAnswer(answer: EventsList['new:answer']) {
@@ -14,7 +14,7 @@ export default class Answer {
       await Subscription.query().select('user_id').where('question_id', '=', question.id)
     ).map((subscription: Subscription) => subscription.userId)
 
-    const users = await User.query().whereIn('id', subscribedUsers)
+    const users = await Author.query().whereIn('id', subscribedUsers)
 
     for (const user of users) {
       await Mail.sendLater((message) => {

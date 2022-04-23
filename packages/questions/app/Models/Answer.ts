@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 
 import Question from 'App/Models/Question'
-import User from 'App/Models/User'
+import Author from 'App/Models/Author'
 
 import IdentifiableModel from 'App/Helpers/Orm/IdentifiableModel'
 
@@ -16,8 +16,8 @@ export default class Answer extends IdentifiableModel {
   @column()
   public authorId: string
 
-  @belongsTo(() => User, { foreignKey: 'authorId' })
-  public author: BelongsTo<typeof User>
+  @belongsTo(() => Author, { foreignKey: 'authorId' })
+  public author: BelongsTo<typeof Author>
 
   @belongsTo(() => Question, { foreignKey: 'questionId' })
   public question: BelongsTo<typeof Question>
