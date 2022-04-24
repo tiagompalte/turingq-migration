@@ -73,6 +73,7 @@ kubectl wait --namespace ingress-nginx \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/component=controller \
   --timeout=90s
+  
 kubectl apply -f ../ingress/k8s/ingress.yml
 ```
 

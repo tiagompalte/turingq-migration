@@ -7,7 +7,6 @@ import RegistrationValidator from 'App/Validators/RegistrationValidator'
 
 export default class RegistrationsController {
   public async store({ request, response }: HttpContextContract) {
-    const useKeycloak = Env.get('USE_KEYCLOAK')
     const payload = await request.validate(RegistrationValidator)
 
     const user = new User()
@@ -15,19 +14,15 @@ export default class RegistrationsController {
     user.email = payload.email
     user.password = payload.password
 
-    // Se estamos utilizando o Keycloak, ...
-    if (useKeycloak) {
-      // ...criamos o usuário no Keycloak:
-      const keycloakUser = await this.createKeycloakUser(
-        payload.name,
-        payload.email,
-        payload.password
-      )
+    const keycloakUser = await this.createKeycloakUser(
+      payload.name,
+      payload.email,
+      payload.password
+    )
 
-      // E então utilizamos o ID do usuário do Keycloak
-      // em nossa instância local do usuário.
-      user.id = keycloakUser.id
-    }
+    // E então utilizamos o ID do usuário do Keycloak
+    // em nossa instância local do usuário.
+    user.id = keycloakUser.id
 
     // Finalmente, salvamos o usuário localmente.
     // Espere! Estamos duplicando o usuário? Salvando-o

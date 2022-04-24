@@ -5,9 +5,6 @@
  * file.
  */
 
- import Answer from 'App/Models/Answer'
- import Question from 'App/Models/Question'
-
 declare module '@ioc:Adonis/Core/Event' {
   /*
   |--------------------------------------------------------------------------
@@ -28,8 +25,5 @@ declare module '@ioc:Adonis/Core/Event' {
   | an instance of the the UserModel only.
   |
   */
-  interface EventsList {
-    'new:answer': Answer
-    'new:question': Question
-  }
+  interface EventsList {}
 }

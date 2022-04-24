@@ -39,20 +39,6 @@ ApiService.interceptors.request.use(
   (
     config: AxiosRequestConfig
   ): AxiosRequestConfig | Promise<AxiosRequestConfig> => {
-    let accessToken;
-
-    // Nossa flag aparece mais uma vez:
-    const useAuthServer = process.env.REACT_APP_USE_AUTH_SERVER === 'true';
-
-    // Nossa implementação original guarda o token no
-    // localStorage do browser:
-    if (!useAuthServer) {
-      accessToken = localStorage.getItem('token');
-      setAuthorizationToken(config, accessToken);
-      return config;
-    }
-
-    // A partir daqui, temos a configuração do Keycloak
     if (!keycloakClient.authenticated) {
       return config;
     }

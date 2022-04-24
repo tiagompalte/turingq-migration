@@ -1,0 +1,62 @@
+{
+  "realm": "turingq",
+  "displayName": "TuringQ",
+  "enabled": true,
+  "accessTokenLifespan": 1800,
+  "clients": [
+    {
+      "clientId": "turingq-frontend-client",
+      "name": "turingq-frontend-client",
+      "description": "Frontend",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "rootUrl": "http://localhost:9090",
+      "redirectUris": [
+        "http://localhost:9090/*"
+      ],
+      "webOrigins": [
+        "http://localhost:9090"
+      ]
+    },
+    {
+      "clientId": "turingq-core-client",
+      "name": "turingq-core-client",
+      "description": "Previous monolith",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "turingq-core-client-secret-change-me",
+      "serviceAccountsEnabled": true,
+      "redirectUris": [
+        "*"
+      ]
+    },
+    {
+      "clientId": "turingq-questions-client",
+      "name": "turingq-questions-client",
+      "description": "Questions",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "questions-microservice-secret-change-me",
+      "serviceAccountsEnabled": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "service-account-turingq-core-client",
+      "enabled": true,
+      "serviceAccountClientId": "turingq-core-client",
+      "clientRoles": {
+        "realm-management": [
+          "manage-users"
+        ]
+      }
+    }
+  ]
+}

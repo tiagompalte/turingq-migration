@@ -9,13 +9,8 @@
 #   NODE_ENV: 'production'
 #   # O valor abaixo deve ser o equivalente em minutos ao valor
 #   # de accessTokenLifespan na configuração do realm:
-#   AUTH_TOKEN_EXPIRATION_MINUTES: '30'
 #   PAGINATION_LIMIT: '10'
 #   DB_CONNECTION: 'pg'
-#   # Utilize abaixo os dados de SMTP do Mailtrap:
-#   SMTP_HOST: 'localhost'
-#   SMTP_PORT: '587'
-#   MAIL_FROM: 'info@example.com'
 #   # Notou que estamos utilizando o nome de um service abaixo?
 #   # Criaremos este service em breve
 #   PG_HOST: 'core-database-service'
@@ -33,5 +28,3 @@
 #   # os microsserviços não serão capazes de validar o token de
 #   # acesso.
 #   KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY: 'please-find-me-on-keycloak'
-#   USE_KEYCLOAK: 'true'
-

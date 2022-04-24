@@ -42,6 +42,5 @@ Server.middleware.register([
 |
 */
 Server.middleware.registerNamed({
-  auth: () => import('App/Middleware/Auth'),
   keycloak: () => import('App/Middleware/Keycloak'),
 })

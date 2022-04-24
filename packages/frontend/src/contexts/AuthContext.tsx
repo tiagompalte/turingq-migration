@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useState } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
-import AuthService from '../services/AuthService';
 
 const Context = React.createContext({
   loggedIn: false,
@@ -12,22 +11,6 @@ const Context = React.createContext({
 interface AuthStoreProps {
   children: React.ReactNode;
 }
-
-export const AuthStore: React.FC<AuthStoreProps> = ({
-  children,
-}: AuthStoreProps) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  if (!loggedIn && AuthService.getAuthToken()) {
-    setLoggedIn(true);
-  }
-
-  return (
-    <Context.Provider value={{ loggedIn, setLoggedIn }}>
-      {children}
-    </Context.Provider>
-  );
-};
 
 // Este é um componente do React que utiliza “React contexts”.
 // Este é um conceito do React e entender como ele funciona
