@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: questions-database-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: questions-database
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: questions-database
+    spec:
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: questions-database-configmap
+          - secretRef:
+              name: questions-database-secret
+          name: questions-database
+          image: postgres:13-alpine

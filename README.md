@@ -49,30 +49,48 @@ npm run dev
 docker run -p 9200:80 -e "PGADMIN_DEFAULT_EMAIL=some@email.com" -e "PGADMIN_DEFAULT_PASSWORD=postgres" --add-host=host.docker.internal:host-gateway -d  dpage/pgadmin4
 ```
 
-## K8S
-
-### Resources
+## Using Kind
+1. Delete cluster kind
 ```
-sh resources/kubernetes/create-kind-cluster.sh
+kind delete clusters turingq-local
+```
 
-kubectl apply -f resources/ingress/k8s/setup.yml
+2. Create Registry
+```
+cd resources/registry
+docker-compose up -d
+```
+
+3. Resources
+```
+cd ../kubernetes
+
+sh create-kind-cluster.sh
+
+kubectl apply -f ../ingress/k8s/setup.yml
 
 kubectl wait --namespace ingress-nginx \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/component=controller \
   --timeout=90s
-
-kubectl apply -f resources/ingress/k8s/ingress.yml
+kubectl apply -f ../ingress/k8s/ingress.yml
 ```
-### Packages
+
+4. Deploy Keycloak
 ```
 npm run deploy:local:authorizer
-npm run deploy:local:core
-npm run deploy:local:frontend
 ```
 
-### Set env KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY
-- Acesse o Keycloak dashboard
-- Vá em: Realm Settings -> Keys -> RS256 - SIG
-- Copie o valor de Public Key
-- Cole em packages/core/k8s/core/config-map.yml
+5. Get KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY env in Keycloak
+- Access http://localhost:9090/auth/
+- Copy Realm Settings -> Keys -> RS256 - SIG
+- Set KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY in files:
+  - packages/core/k8s/core/config-map.yml
+  - packages/questions/k8s/questions/config-map.yml
+
+6. Deploy apps
+```
+npm run deploy:local:core
+npm run deploy:local:frontend
+npm run deploy:local:questions
+```

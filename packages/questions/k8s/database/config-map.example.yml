@@ -1,0 +1,7 @@
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: questions-database-configmap
+#  namespace: default
+#data:
+#  POSTGRES_DB: 'turingq-questions'

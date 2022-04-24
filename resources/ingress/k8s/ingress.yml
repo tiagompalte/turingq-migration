@@ -33,4 +33,10 @@ spec:
             name: frontend-service
             port:
               number: 80
-
+      - pathType: Prefix
+        path: "/api/questions"
+        backend:
+          service:
+            name: questions-service
+            port:
+              number: 3002

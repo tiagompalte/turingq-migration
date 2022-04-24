@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: questions-service
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 3002
+      targetPort: 3002
+      nodePort: 30004
+  selector:
+    app: questions

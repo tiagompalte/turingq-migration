@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: questions-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: questions
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: questions
+    spec:
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: questions-configmap
+          - secretRef:
+              name: questions-secret
+          name: questions
+          image: localhost:5000/turingq-questions
+          imagePullPolicy: IfNotPresent
+      initContainers:
+        - envFrom:
+          - configMapRef:
+              name: questions-configmap
+          - secretRef:
+              name: questions-secret
+          name: questions-migrate-db
+          image: localhost:5000/turingq-questions
+          command: ['node', 'ace', 'migration:run', '--force']

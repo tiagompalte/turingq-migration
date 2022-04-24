@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: questions-database-service
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 5432
+      targetPort: 5432
+      nodePort: 30005
+  selector:
+    app: questions-database
