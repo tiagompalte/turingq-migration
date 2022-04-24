@@ -7,25 +7,10 @@ import { string } from '@ioc:Adonis/Core/Helpers'
 import AnswerValidator from 'App/Validators/AnswerValidator'
 import PaginationValidator from 'App/Validators/PaginationValidator'
 import Answer from 'App/Models/Answer'
+import AuthorHandler from 'App/Helpers/Http/AuthorHandler'
 
 // TODO: add missing tests
 export default class AnswersController {
-  private getUserId(auth, request) {
-    const useKeycloak = Env.get('USE_KEYCLOAK')
-
-    // Dependendo de nossa variável de ambiente, retornamos
-    // o ID do usuário de um lugar diferente:
-    if (useKeycloak) {
-      // O middleware que criamos armazena o usuário no objeto
-      // “request”:
-      return request['user'].id
-    } else {
-      // O sistema de autenticação do Adonis tem seu próprio
-      // meio de acessar o usuário:
-      return auth.use('api').user!.id
-    }
-  }
-
   public async index({ request }: HttpContextContract) {
     const questionId = request.param('question_id')
 
@@ -46,17 +31,19 @@ export default class AnswersController {
     return answer.toJSON()
   }
 
-  public async store({ auth, request, response }: HttpContextContract) {
-    const userId = this.getUserId(auth, request)
-    const answer = await this.save(request, userId)
+  public async store({ request, response }: HttpContextContract) {
+    const user = request['user']
+    await AuthorHandler.processAuthor(user)
+    const answer = await this.save(request, user.id)
 
     Event.emit('new:answer', answer)
 
     return response.created(answer.toJSON())
   }
 
-  public async update({ auth, request, response }: HttpContextContract) {
-    const userId = this.getUserId(auth, request)
+  public async update({ request, response }: HttpContextContract) {
+    const user = request['user']
+    await AuthorHandler.processAuthor(user)
     const questionId = request.param('question_id')
 
     let answerInDb = (
@@ -70,18 +57,18 @@ export default class AnswersController {
 
     if (answerInDb === null) {
       responseMethod = 'created'
-    } else if (answerInDb.authorId !== userId) {
+    } else if (answerInDb.authorId !== user.id) {
       return response.unauthorized({ error: 'You cannot update an answer from another author' })
     }
 
-    const question = await this.save(request, userId, answerInDb)
+    const question = await this.save(request, user.id, answerInDb)
     return response[responseMethod](question.toJSON())
   }
 
-  public async destroy({ auth, params, request, response }: HttpContextContract) {
-    const userId = this.getUserId(auth, request)
+  public async destroy({ params, request, response }: HttpContextContract) {
+    const user = request['user']
     const answer = await Answer.findOrFail(params.id)
-    if (answer.authorId !== userId) {
+    if (answer.authorId !== user.id) {
       return response.unauthorized({ error: 'You cannot remove an answer from another author' })
     }
     await answer.delete()
