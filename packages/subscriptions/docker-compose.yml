@@ -18,6 +18,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - turingq-messages
+
+networks:
+  turingq-messages:
+    driver: bridge
 
 volumes:
   turingq-subscriptions-db-data:

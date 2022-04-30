@@ -94,7 +94,12 @@ kubectl apply -f ../ingress/k8s/ingress.yml
   - packages/core/k8s/core/config-map.yml
   - packages/questions/k8s/questions/config-map.yml
 
-6. Deploy apps
+6. Up RabbitMq
+```
+npm run kubernetes:setup:message-broker
+```
+
+7. Deploy apps
 - If no have container registry in Docker before, execute:
   ```
   npm run deploy:local:core

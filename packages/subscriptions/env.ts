@@ -32,4 +32,13 @@ export default Env.rules({
   SMTP_USERNAME: Env.schema.string(),
   SMTP_PASSWORD: Env.schema.string(),
   MAIL_FROM: Env.schema.string({ format: 'email' }),
+  RABBITMQ_CONNECTION_USER: Env.schema.string(),
+  RABBITMQ_CONNECTION_PASSWORD: Env.schema.string(),
+  RABBITMQ_CONNECTION_HOST: Env.schema.string({ format: 'host' }),
+  RABBITMQ_CONNECTION_PORT: Env.schema.number(),
+  RABBITMQ_SUBSCRIPTIONS_EXCHANGE_NAME: Env.schema.string(),
+  RABBITMQ_SUBSCRIPTIONS_REGISTRATION_QUEUE_NAME: Env.schema.string(),
+  RABBITMQ_SUBSCRIPTIONS_REGISTRATION_BINDING_KEY: Env.schema.string(),
+  RABBITMQ_SUBSCRIPTIONS_NEW_ANSWER_QUEUE_NAME: Env.schema.string(),
+  RABBITMQ_SUBSCRIPTIONS_NEW_ANSWER_BINDING_KEY: Env.schema.string(),
 })

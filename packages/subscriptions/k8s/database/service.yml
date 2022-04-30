@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: subscriptions-database-service
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 5432
+      targetPort: 5432
+      nodePort: 30007
+  selector:
+    app: subscriptions-database

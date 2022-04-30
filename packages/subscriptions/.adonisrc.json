@@ -24,6 +24,12 @@
         "repl",
         "web"
       ]
+    },
+    {
+      "file": "./start/subscriptions",
+      "environment": [
+        "web"
+      ]
     }
   ],
   "providers": [

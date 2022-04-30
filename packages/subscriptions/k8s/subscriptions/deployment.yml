@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subscriptions-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: subscriptions
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: subscriptions
+    spec:
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: subscriptions-configmap
+          - secretRef:
+              name: subscriptions-secret
+          name: subscriptions
+          image: localhost:5000/turingq-subscriptions
+          imagePullPolicy: IfNotPresent
+      initContainers:
+        - envFrom:
+          - configMapRef:
+              name: subscriptions-configmap
+          - secretRef:
+              name: subscriptions-secret
+          name: subscriptions-migrate-db
+          image: localhost:5000/turingq-subscriptions
+          command: ['node', 'ace', 'migration:run', '--force']
