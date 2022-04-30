@@ -33,7 +33,6 @@
   "dependencies": {
     "@adonisjs/core": "^5.1.8",
     "@adonisjs/lucid": "^16.0.0",
-    "@adonisjs/mail": "^7.2.4",
     "@adonisjs/repl": "^3.1.7",
     "@adonisjs/shield": "^7.0.7",
     "jsonwebtoken": "^8.5.1",

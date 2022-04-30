@@ -32,7 +32,6 @@
       "@adonisjs/repl",
       "@adonisjs/shield",
       "@adonisjs/lucid",
-      "@adonisjs/mail"
     ]
   }
 }
