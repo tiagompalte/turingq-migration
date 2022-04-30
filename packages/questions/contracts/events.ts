@@ -5,8 +5,8 @@
  * file.
  */
 
- import Answer from 'App/Models/Answer'
- import Question from 'App/Models/Question'
+import Answer from 'App/Models/Answer'
+import Question from 'App/Models/Question'
 
 declare module '@ioc:Adonis/Core/Event' {
   /*
