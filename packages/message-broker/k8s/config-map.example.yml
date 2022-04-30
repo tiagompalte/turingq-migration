@@ -1,0 +1,9 @@
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: message-broker-configmap
+#  namespace: default
+#data:
+#  RABBITMQ_DEFAULT_VHOST: '/'
+#  RABBITMQ_LOCAL_PORT: '5672'
+#  RABBITMQ_LOCAL_MANAGEMENT_CONSOLE_PORT: '15672'

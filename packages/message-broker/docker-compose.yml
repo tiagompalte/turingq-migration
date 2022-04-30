@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    container_name: turingq-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
+    ports:
+      - ${RABBITMQ_LOCAL_PORT}:5672
+      - ${RABBITMQ_LOCAL_MANAGEMENT_CONSOLE_PORT}:15672
+    networks:
+      - turingq-messages
+
+networks:
+  turingq-messages:
+    driver: bridge

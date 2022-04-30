@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-broker-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: message-broker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: message-broker
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: message-broker-configmap
+        - secretRef:
+            name: message-broker-secret
+        name: message-broker
+        image: rabbitmq:3.9-management-alpine

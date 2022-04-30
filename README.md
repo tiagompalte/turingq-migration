@@ -49,8 +49,8 @@ npm run dev
 docker run -p 9200:80 -e "PGADMIN_DEFAULT_EMAIL=some@email.com" -e "PGADMIN_DEFAULT_PASSWORD=postgres" --add-host=host.docker.internal:host-gateway -d  dpage/pgadmin4
 ```
 
-## Using Kind
-1. Delete cluster kind
+## UP Kind
+1. Delele old cluster
 ```
 kind delete clusters turingq-local
 ```
@@ -61,7 +61,7 @@ cd resources/registry
 docker-compose up -d
 ```
 
-3. Resources
+3. Recreate the cluster Kind and configure Ingress
 ```
 cd ../kubernetes
 
@@ -77,10 +77,15 @@ kubectl wait --namespace ingress-nginx \
 kubectl apply -f ../ingress/k8s/ingress.yml
 ```
 
-4. Deploy Keycloak
-```
-npm run deploy:local:authorizer
-```
+4. Up authorizer:
+- If no have container registry in Docker before, execute:
+  ```
+  npm run deploy:local:authorizer
+  ```
+- Or, execute:
+  ```
+  npm run kubernetes:setup:authorizer
+  ```
 
 5. Get KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY env in Keycloak
 - Access http://localhost:9090/auth/
@@ -90,8 +95,15 @@ npm run deploy:local:authorizer
   - packages/questions/k8s/questions/config-map.yml
 
 6. Deploy apps
-```
-npm run deploy:local:core
-npm run deploy:local:frontend
-npm run deploy:local:questions
-```
+- If no have container registry in Docker before, execute:
+  ```
+  npm run deploy:local:core
+  npm run deploy:local:frontend
+  npm run deploy:local:questions
+  ```
+- Or, execute:
+  ```
+  npm run kubernetes:setup:core
+  npm run kubernetes:setup:frontend
+  npm run kubernetes:setup:questions
+  ```
