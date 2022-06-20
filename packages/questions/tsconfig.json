@@ -13,6 +13,7 @@
     "rootDir": ".",
     "baseUrl": ".",
     "sourceMap": true,
+    "noUnusedLocals": false,
     "paths": {
       "App/*": [
         "./app/*"

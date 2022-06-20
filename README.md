@@ -112,3 +112,9 @@ npm run kubernetes:setup:message-broker
   npm run kubernetes:setup:frontend
   npm run kubernetes:setup:questions
   ```
+
+# UP AWS - EKS
+1. 
+``` 
+eksctl create cluster --config-file resources/aws/cluster.yml
+```

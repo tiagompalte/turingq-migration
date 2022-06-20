@@ -1,0 +1,32 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  # Este é o nome do nosso cluster:
+  name:  turingq-aws
+
+  # Esta é a região da AWS que queremos executar o cluster.
+  # Regiões diferentes tem custos diferentes e, dependendo do
+  # lugar no mundo você e seus clientes estejam, a latência
+  # em uma região pode ser menor do que em outra.
+  region: us-east-1
+
+  # Esta é a versão do Kubernetes. Se você precisar
+  # especificar esta versão, pode fazê-lo aqui:
+  version: '1.21'
+
+  # Tags associadas aos recursos na AWS:
+  tags:
+    project: TuringQ
+
+# Vamos criar worker nodes gerenciados pelo EKS.
+# Cada node é uma máquina no EC2, ou seja, quanto mais nós
+# mais caro a nossa infraestrutura. Faz sentido, não é?
+managedNodeGroups:
+  # Aqui damos um nome ao grupo de worker nodes, ...
+  - name: turingq-nodes
+    # ...definimos o tipo de instância que vamos usar
+    # (t2.medium, conforme comentamos há pouco)...
+    instanceType: t2.medium
+    # ...e dizemos que precisamos de 2 nós (poderíamos ter
+    # mais, mas teríamos que pagar por mais máquinas):
+    desiredCapacity: 2

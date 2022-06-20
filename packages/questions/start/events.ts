@@ -1,3 +1,4 @@
+//@ts-ignore
 import Event from '@ioc:Adonis/Core/Event'
 
 Event.on('new:question', 'Question.onNewQuestion')
