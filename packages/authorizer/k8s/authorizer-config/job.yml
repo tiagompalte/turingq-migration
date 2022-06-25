@@ -12,5 +12,5 @@ spec:
         - secretRef:
             name: authorizer-config-secret
         name: authorizer-config
-        image: localhost:5000/turingq-authorizer-config
+        image: ${REPO_HOST}/turingq-authorizer-config
       restartPolicy: OnFailure

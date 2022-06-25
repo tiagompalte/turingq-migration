@@ -20,7 +20,7 @@ spec:
           - secretRef:
               name: questions-secret
           name: questions
-          image: localhost:5000/turingq-questions
+          image: ${REPO_HOST}/turingq-questions
           imagePullPolicy: IfNotPresent
       initContainers:
         - envFrom:
@@ -29,5 +29,5 @@ spec:
           - secretRef:
               name: questions-secret
           name: questions-migrate-db
-          image: localhost:5000/turingq-questions
+          image: ${REPO_HOST}/turingq-questions
           command: ['node', 'ace', 'migration:run', '--force']

@@ -20,7 +20,7 @@ spec:
           - secretRef:
               name: subscriptions-secret
           name: subscriptions
-          image: localhost:5000/turingq-subscriptions
+          image: ${REPO_HOST}/turingq-subscriptions
           imagePullPolicy: IfNotPresent
       initContainers:
         - envFrom:
@@ -29,5 +29,5 @@ spec:
           - secretRef:
               name: subscriptions-secret
           name: subscriptions-migrate-db
-          image: localhost:5000/turingq-subscriptions
+          image: ${REPO_HOST}/turingq-subscriptions
           command: ['node', 'ace', 'migration:run', '--force']

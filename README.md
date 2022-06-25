@@ -114,7 +114,99 @@ npm run kubernetes:setup:message-broker
   ```
 
 # UP AWS - EKS
-1. 
+1. Config .env
+```
+cp .env.example .env
+```
+Edit values: AWS_ACCOUNT_ID and AWS_REGION
+
+2. Login in AWS - ECR
+```
+npm run docker:prod:login
+```
+
+3. In AWS platform, create registries in ECR: authorizer-config, turingq-core, turingq-frontend, turingq-questions and turingq-subscriptions
+
+4. Send images to ECR
+```
+npm run docker:prepare-prod-image:authorizer-config
+npm run docker:prepare-prod-image:core
+npm run docker:prepare-prod-image:frontend
+npm run docker:prepare-prod-image:questions
+npm run docker:prepare-prod-image:subscriptions
+```
+
+5. Create cluster EKS
 ``` 
 eksctl create cluster --config-file resources/aws/cluster.yml
+```
+
+* Obs.: To destroy the cluster
+```
+eksctl delete cluster --config-file resources/aws/cluster.yml
+```
+
+6. Config ${REPO_HOST}
+```
+export REPO_HOST=${AWS_ACCOUNT_ID}.dkr.ecr.us-east1.amazonaws.com
+```
+Obs.: Change value ${AWS_ACCOUNT_ID} to your aws account id
+
+7. Create ingress
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/aws/deploy.yaml
+```
+Obs.: Verify ingress
+```
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
+```
+
+8. Create ingress for the services
+```
+kubectl apply -f resources/ingress/k8s/ingress.yml
+kubectl get svc --namespace=ingress-nginx
+```
+
+9. Change values of secrets keys
+
+10. Configure "rootUrl", "redirectUris" and "webOrigins" of packages/authorizer/config/turingq-prod.json to Load Balancer URL (kubectl get svc --namespace=ingress-nginx)
+
+11. Run
+```
+npm run docker:prepare-prod-image:authorizer-config
+```
+
+12. Deploy Authorizer
+```
+npm run kubernetes:setup:authorizer
+```
+
+13. Get KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY env in Keycloak
+- Access Keycloak ${REPO_HOST}/auth
+- Copy Realm Settings -> Keys -> RS256 - SIG
+- Set KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY in files:
+  - packages/core/k8s/core/config-map.yml
+  - packages/questions/k8s/questions/config-map.yml
+
+14. In packages/frontend change .env.production.local:
+- REACT_APP_API_BASE_URL: '${REPO_HOST}/api'
+- REACT_APP_AUTH_SERVER_URL: '${REPO_HOST}/auth/'
+
+15. Build the image frontend and send to ECR:
+```
+npm run docker:prepare-prod-image:frontend
+```
+
+16. Config envs of config-maps
+
+17. Deploy the services:
+```
+npm run kubernetes:setup:message-broker
+npm run kubernetes:setup:frontend
+npm run kubernetes:setup:core
+npm run kubernetes:setup:questions
+npm run kubernetes:setup:subscriptions
 ```

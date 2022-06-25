@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: localhost:5000/turingq-frontend
+        image: ${REPO_HOST}/turingq-frontend
