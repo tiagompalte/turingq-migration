@@ -5,3 +5,4 @@
 #   namespace: default
 # data:
 #   KEYCLOAK_PORT: '8080'
+#   KEYCLOAK_DB_VENDOR: ''
