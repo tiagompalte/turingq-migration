@@ -1,28 +1,22 @@
+# Create a config-map.yml with the content below, uncomment the lines, and adjust the variable values as needed:
+
 #apiVersion: v1
 #kind: ConfigMap
 #metadata:
-#  name: questions-configmap
+#  name: ranking-configmap
 #  namespace: default
 #data:
-#  PORT: '3002'
+#  PORT: '3003'
 #  HOST: '0.0.0.0'
 #  NODE_ENV: 'production'
 #  PAGINATION_LIMIT: '10'
 #  DB_CONNECTION: 'pg'
-#  PG_HOST: 'questions-database-service'
+#  PG_HOST: 'ranking-database-service'
 #  PG_PORT: '5432'
-#  PG_DB_NAME: 'turingq-questions'
-#  KEYCLOAK_CLIENT_ID: 'turingq-questions-client'
-#  KEYCLOAK_AUTH_SERVER_URL: 'http://authorizer-service:8080/auth'
-#  KEYCLOAK_REALM: 'turingq'
-#  KEYCLOAK_REALM_TOKEN_SIGNATURE_PUBLIC_KEY: 'please-find-me-on-keycloak'
+#  PG_DB_NAME: 'turingq-ranking'
 #  RABBITMQ_CONNECTION_HOST: 'message-broker-service'
 #  RABBITMQ_CONNECTION_PORT: '5672'
 #  RABBITMQ_SUBSCRIPTIONS_EXCHANGE_NAME: 'turingq.subscriptions.exchange'
-#  RABBITMQ_SUBSCRIPTIONS_REGISTRATION_QUEUE_NAME: 'registration'
-#  RABBITMQ_SUBSCRIPTIONS_REGISTRATION_BINDING_KEY: 'new:registration'
-#  RABBITMQ_SUBSCRIPTIONS_NEW_ANSWER_QUEUE_NAME: 'questions.newanswer'
-#  RABBITMQ_SUBSCRIPTIONS_NEW_ANSWER_BINDING_KEY: 'new:answer'
 #  RABBITMQ_SUBSCRIPTIONS_RANKING_ANSWER_QUEUE_NAME: 'ranking.newanswer'
 #  RABBITMQ_SUBSCRIPTIONS_RANKING_ANSWER_BINDING_NAME: 'count:answer'
 #  RABBITMQ_SUBSCRIPTIONS_RANKING_QUESTION_QUEUE_NAME: 'ranking.newquestion'

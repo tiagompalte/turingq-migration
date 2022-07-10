@@ -1,0 +1,20 @@
+FROM node:16.10-alpine as builder
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY packages/ranking ./
+
+RUN npm install \
+    && npm run build \
+    && cd build \
+    && npm ci --production
+
+FROM node:16.10-alpine
+
+RUN mkdir -p /usr/app
+WORKDIR /usr/app
+
+COPY --from=builder "/usr/src/app/build" "/usr/app"
+
+CMD [ "npm", "run", "start" ]

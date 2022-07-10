@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ranking-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: ranking
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ranking
+    spec:
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: ranking-configmap
+          - secretRef:
+              name: ranking-secret
+          name: ranking
+          image: ${REPO_HOST}/turingq-ranking
+          imagePullPolicy: IfNotPresent
+      initContainers:
+        - envFrom:
+          - configMapRef:
+              name: ranking-configmap
+          - secretRef:
+              name: ranking-secret
+          name: ranking-migrate-db
+          image: ${REPO_HOST}/turingq-ranking
+          command: ['node', 'ace', 'migration:run', '--force']

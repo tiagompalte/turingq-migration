@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  ranking-database:
+    image: postgres:13-alpine
+    container_name: turingq-ranking-database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB_NAME}
+    volumes:
+      - turingq-ranking-db-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+    ports:
+      - ${DB_LOCAL_PORT}:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - turingq-ranking
+
+networks:
+  turingq-ranking:
+    driver: bridge
+
+volumes:
+  turingq-ranking-db-data:

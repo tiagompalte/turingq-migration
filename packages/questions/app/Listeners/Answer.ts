@@ -13,6 +13,7 @@ export default class Answer extends AmqpListener {
     const messageContent = {
       question: {
         id: question.id,
+        authorId: question.authorId,
         title: question.title,
       },
       answer: {

@@ -117,8 +117,8 @@ PG_SCHEMA=public
   "docker:prepare-local-image:subscriptions": "run-s docker:build:subscriptions docker:local:tag:subscriptions docker:local:push:subscriptions",
   "docker:all:prepare-local-image": "run-p docker:prepare-local-image:*",
   "docker:all:build": "run-p docker:build:*",
-  "docker:all:local-tag": "run-p docker:local:tag:*",
-  "docker:all:local-push": "run-p docker:local:push:*"
+  "docker:all:local:tag": "run-p docker:local:tag:*",
+  "docker:all:local:push": "run-p docker:local:push:*"
   }
 ```
 
@@ -230,6 +230,17 @@ tmp
 **/secret.yml
 ```
 
-## Nova funcionalidade
-```
-```
+## 5.Uma nova funcionalidade para o sistema
+Para essa etapa do projeto, a nova funcionalidade para o sistema escolhida foi o desenvolvimento de um novo microsserviço de pontuação, chamada "Ranking"
+
+### Sistema de pontuação:
+- Um novo microsserviço responsável por dar uma pontuação aos usuários no sistema. Cada nova questão vale 10 pontos, e cada nova resposta vale 5 pontos. Há uma API para consultar o ranking dos usuários a partir da pontuação. Opcionalmente, este ranking pode ser apresentado em um novo link chamado "Ranking" na interface do usuário.
+
+### Desenvolvimento:
+- Foi criado um novo projeto chamado ranking dentro da pasta packages do monorepo;
+- Criado os arquivos do kubernetes dentro da pasta k8s;
+- Foi criada uma nova tabela chamada ranking, que tem como objetivo manter a atualizado da pontuação de cada usuário, conforme o que fora definido acima, utilizando migrations do adonisjs;
+- Para ocorrer essa atualização da pontuação dos usuários foi utilizado o sistema de mensageria, no qual por meio da fila referente a `answer` (env: RABBITMQ_SUBSCRIPTIONS_RANKING_ANSWER_QUEUE_NAME), chega os usuários que interagiram respondendo alguma pergunta, e através da fila `question` (env: RABBITMQ_SUBSCRIPTIONS_RANKING_QUESTION_QUEUE_NAME), os usuários que cadastraram alguma pergunta;
+- Para completar foi criado um endpoint em `GET /ranking` para listar de forma paginada e ordenagem descendente por pontuação, ou seja, trazendo o de maior pontuação primeiro e o de menor pontuação por último. Pode ser visto no arquivo app/Controllers/Http/RankingController.ts
+
+O código fonte dessa parte da tarefa se encontra em: https://github.com/tiagompalte/turingq-migration

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ranking-database-deployment
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: ranking-database
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ranking-database
+    spec:
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: ranking-database-configmap
+          - secretRef:
+              name: ranking-database-secret
+          name: ranking-database
+          image: postgres:13-alpine
