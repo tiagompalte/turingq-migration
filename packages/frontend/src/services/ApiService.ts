@@ -11,7 +11,6 @@ const getHeaders = (): Record<string, string> => ({
   'Content-Type': 'application/json',
 });
 const ApiService = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: getHeaders(),
 });
 

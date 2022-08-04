@@ -21,7 +21,7 @@ const signUp = (
       // eslint-disable-next-line no-unused-vars
       reject: (reason: Error) => void
     ): void => {
-      ApiService.post('/registration', {
+      ApiService.post(`${process.env.REACT_APP_API_BASE_URL}/registration`, {
         name,
         email,
         password,

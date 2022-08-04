@@ -18,7 +18,7 @@ const getQuestions = async (
       // eslint-disable-next-line no-unused-vars
       reject: (reason: Error) => void
     ): void => {
-      ApiService.get('/questions', {
+      ApiService.get(`${process.env.REACT_APP_QUESTIONS_API_URL}/questions`, {
         params: {
           page,
           limit,
@@ -39,12 +39,11 @@ const getQuestion = async (id: string): Promise<QuestionDefinition> =>
       // eslint-disable-next-line no-unused-vars
       reject: (reason: Error) => void
     ): void => {
-      ApiService.get(`/questions/${id}`).then(
-        (result: AxiosResponse<QuestionDefinition>) => {
-          resolve(result.data);
-        },
-        reject
-      );
+      ApiService.get(
+        `${process.env.REACT_APP_QUESTIONS_API_URL}/questions/${id}`
+      ).then((result: AxiosResponse<QuestionDefinition>) => {
+        resolve(result.data);
+      }, reject);
     }
   );
 
@@ -61,7 +60,10 @@ const saveQuestion = async (
       // eslint-disable-next-line no-unused-vars
       reject: (reason: Error) => void
     ): void => {
-      ApiService.post(`/questions/`, { title, body }).then(
+      ApiService.post(`${process.env.REACT_APP_QUESTIONS_API_URL}/questions`, {
+        title,
+        body,
+      }).then(
         (result: AxiosResponse<QuestionDefinition>) => {
           resolve(result.data);
         },

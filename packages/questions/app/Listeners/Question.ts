@@ -15,6 +15,7 @@ export default class Question extends AmqpListener {
       },
       subscriber: {
         id: author.id,
+        name: author.name,
         email: author.email,
       },
     }

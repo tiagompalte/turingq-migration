@@ -21,7 +21,7 @@ import { Link } from 'react-router-dom';
 import routes from '../../routes';
 import AuthContext from '../../contexts/AuthContext';
 
-const routesList = ['home'];
+const routesList = ['home', 'ranking'];
 
 const useStyles = makeStyles((theme: Theme) => ({
   links: {

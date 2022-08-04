@@ -6,6 +6,7 @@ export default class Question {
   private readonly POINTS_QUESTION = 10
 
   public async onNewQuestion(messageContent: EventsList['question:arrival']) {
-    await Ranking.upsertUser(messageContent.subscriber.id, this.POINTS_QUESTION)
+    const {subscriber} = messageContent
+    await Ranking.upsertUser(this.POINTS_QUESTION, subscriber.id, subscriber.name, subscriber.email)
   }
 }

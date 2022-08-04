@@ -1,8 +1,8 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import ApiService from './ApiService';
 import FormValidationError from '../errors/FormValidationError';
 import AnswerDefinition from '../interfaces/AnswerDefinition';
+import ApiService from './ApiService';
 
 const saveAnswer = async (
   questionId: string,
@@ -17,7 +17,10 @@ const saveAnswer = async (
       // eslint-disable-next-line no-unused-vars
       reject: (reason: Error) => void
     ): void => {
-      ApiService.post(`/questions/${questionId}/answers/`, { body }).then(
+      ApiService.post(
+        `${process.env.REACT_APP_QUESTIONS_API_URL}/questions/${questionId}/answers/`,
+        { body }
+      ).then(
         (result: AxiosResponse<AnswerDefinition>) => {
           resolve(result.data);
         },

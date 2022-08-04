@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import Question from '../pages/Question';
 import NewQuestion from '../pages/NewQuestion';
+import Ranking from '../pages/Ranking';
 
 export interface MyRouteProps extends RouteProps {
   name: string;
@@ -32,6 +33,13 @@ const routes: MyRouteProps[] = [
     label: 'Question Details',
     path: '/questions/:id',
     component: Question,
+    exact: true,
+  },
+  {
+    name: 'ranking',
+    label: 'Ranking',
+    path: '/ranking',
+    component: Ranking,
     exact: true,
   },
   {

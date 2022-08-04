@@ -1,12 +1,14 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Ranking extends BaseSchema {
-  protected tableName = 'ranking'
+export default class Rankings extends BaseSchema {
+  protected tableName = 'rankings'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
       table.string('user_id').notNullable().unique().index()
+      table.string('user_name').notNullable()
+      table.string('user_email').notNullable()
       table.integer('points').notNullable()
 
       /**

@@ -33,7 +33,7 @@
     "@adonisjs/core": "^5.1.8",
     "@adonisjs/lucid": "^16.0.0",
     "@adonisjs/repl": "^3.1.7",
-    "@adonijs/shield": "^7.0.7",
+    "@adonisjs/shield": "^7.0.7",
     "amqp-ts": "^1.8.0",
     "luxon": "^2.1.1",
     "nyc": "^15.1.0",
