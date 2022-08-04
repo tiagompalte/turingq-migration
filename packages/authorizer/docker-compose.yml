@@ -8,6 +8,7 @@ services:
     environment:
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      KEYCLOAK_CREATE_ADMIN_USER: 'true' # first time: true / another time: false
       DB_VENDOR: ${KEYCLOAK_DB_VENDOR}
       DB_ADDR: ${PG_HOST}
       DB_DATABASE: ${PG_DB_NAME}
